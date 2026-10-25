@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil | Nusantara Digital</title>
+  <style>
+/* =========================================================
+   Nusantara Digital - style.css
+   ========================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+
+:root {
+  --tinta: #14303a;
+  --teal: #2f7f86;
+  --teal-tua: #226268;
+  --mint: #eef8f7;
+  --biru: #6b9bd1;
+  --kuning: #ffd766;
+  --putih: #ffffff;
+  --abu: #5d7480;
+  --bayang: 0 10px 30px rgba(20, 48, 58, .12);
+  --pantul: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+  background: var(--mint);
+  color: var(--tinta);
+  line-height: 1.7;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+body.siap { opacity: 1; }
+body.keluar { opacity: 0; transition-duration: .22s; }
+
+h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; }
+h1 { font-size: clamp(2.3rem, 5vw, 3.8rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px; }
+h3 { font-size: 1.25rem; margin-bottom: 6px; }
+p { max-width: 62ch; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--kuning);
+  outline-offset: 3px;
+}
+
+/* ---------- Navigasi ---------- */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 8px;
+  padding: 18px 40px;
+  background: var(--tinta);
+  transition: padding .3s ease, box-shadow .3s ease;
+}
+nav.mengecil { padding: 10px 40px; box-shadow: 0 6px 20px rgba(0, 0, 0, .25); }
+.logo { color: var(--putih); font-family: "Fraunces", serif; font-weight: 800; font-size: 1.3rem; margin-right: auto; text-decoration: none; }
+.menu { display: flex; gap: 6px; }
+.menu a {
+  position: relative; color: #cfe8e8; text-decoration: none; font-weight: 700;
+  padding: 8px 16px; border-radius: 999px; transition: color .2s, background .2s;
+}
+.menu a:hover { color: var(--putih); background: rgba(255, 255, 255, .1); }
+.menu a.aktif { color: var(--tinta); background: var(--kuning); }
+
+.burger { display: none; background: none; border: 0; cursor: pointer; padding: 8px; }
+.burger span { display: block; width: 26px; height: 3px; background: var(--putih); margin: 5px 0; border-radius: 3px; transition: transform .3s, opacity .3s; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ---------- Tombol ---------- */
+.tombol {
+  display: inline-block; border: 0; cursor: pointer; text-decoration: none;
+  padding: 14px 30px; border-radius: 999px; font: inherit; font-weight: 700;
+  background: var(--teal); color: var(--putih);
+  transition: transform .25s var(--pantul), background .2s, box-shadow .2s;
+}
+.tombol:hover { background: var(--teal-tua); transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 22px rgba(47, 127, 134, .4); }
+.tombol:active { transform: scale(.96); }
+.tombol.terang { background: var(--kuning); color: var(--tinta); }
+.tombol.terang:hover { background: #ffe08f; box-shadow: 0 10px 22px rgba(0, 0, 0, .25); }
+
+mark { background: var(--kuning); padding: 0 8px; border-radius: 6px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  max-width: 1150px; margin: 0 auto; padding: 70px 40px 50px;
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 50px; align-items: center;
+}
+.hero .teks > * { opacity: 0; transform: translateY(26px) scale(.94); }
+.siap .hero .teks > * { animation: pop .7s var(--pantul) forwards; }
+.siap .hero .teks > *:nth-child(1) { animation-delay: .15s; }
+.siap .hero .teks > *:nth-child(2) { animation-delay: .3s; }
+.siap .hero .teks > *:nth-child(3) { animation-delay: .45s; }
+.siap .hero .teks > *:nth-child(4) { animation-delay: .6s; }
+.siap .hero .teks > *:nth-child(5) { animation-delay: .75s; }
+.hero h1 { text-shadow: 3px 3px 0 #bfe3e3; }
+.hero h2 { color: var(--teal); font-weight: 600; margin: 8px 0 16px; }
+.hero .tombol { margin: 22px 12px 0 0; }
+
+.gambar-wrap { position: relative; }
+.gambar-wrap img {
+  width: 100%; border-radius: 22px; box-shadow: var(--bayang); display: block;
+  aspect-ratio: 4 / 3; object-fit: cover;
+  opacity: 0; transform: scale(.85) rotate(-2deg);
+}
+.siap .gambar-wrap img { animation: pop .9s var(--pantul) .35s forwards; }
+.lencana {
+  position: absolute; left: -22px; bottom: 28px;
+  background: var(--putih); padding: 12px 20px; border-radius: 16px;
+  box-shadow: var(--bayang); font-weight: 700; line-height: 1.3;
+  opacity: 0; transform: scale(.3);
+}
+.lencana small { display: block; font-weight: 500; color: var(--abu); }
+.siap .lencana { animation: pop .6s var(--pantul) 1.3s forwards; }
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(26px) scale(.85); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Angka ---------- */
+.angka {
+  max-width: 1050px; margin: 10px auto 30px; padding: 0 40px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center;
+}
+.angka div { background: var(--tinta); color: var(--putih); border-radius: 18px; padding: 22px 10px; }
+.angka strong { display: block; font-family: "Fraunces", serif; font-size: 2.4rem; color: var(--kuning); }
+
+/* ---------- Seksi ---------- */
+.seksi { max-width: 1100px; margin: 0 auto; padding: 40px; }
+.seksi > p { color: var(--abu); margin-bottom: 26px; }
+
+.layanan { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+.kartu {
+  text-align: left; font: inherit; color: inherit; cursor: pointer;
+  background: var(--putih); border: 2px solid transparent; border-radius: 20px; padding: 26px;
+  box-shadow: var(--bayang);
+  transition: transform .3s var(--pantul), border-color .2s, box-shadow .2s;
+}
+.kartu:hover { transform: translateY(-8px) scale(1.03); border-color: var(--teal); box-shadow: 0 18px 36px rgba(47, 127, 134, .25); }
+.kartu:active { transform: scale(.97); }
+.kartu .ikon { font-size: 2rem; display: block; margin-bottom: 10px; transition: transform .4s var(--pantul); }
+.kartu:hover .ikon { transform: rotate(-12deg) scale(1.3); }
+.kartu .lihat { display: inline-block; margin-top: 10px; color: var(--teal); font-weight: 700; }
+
+.ajakan {
+  max-width: 1020px; margin: 20px auto 60px; padding: 46px 40px; text-align: center;
+  background: linear-gradient(135deg, var(--teal), var(--biru)); color: var(--putih);
+  border-radius: 28px;
+}
+.ajakan p { margin: 10px auto 22px; }
+
+/* ---------- Halaman isi ---------- */
+.konten { max-width: 900px; margin: 0 auto; padding: 56px 40px 70px; }
+.konten > h1 { margin-bottom: 10px; }
+.konten h2 { color: var(--teal); margin-top: 34px; }
+.konten p { margin-bottom: 12px; }
+
+.garis-waktu { list-style: none; border-left: 4px solid var(--teal); margin: 20px 0 0 10px; padding-left: 26px; }
+.garis-waktu li { position: relative; margin-bottom: 22px; background: var(--putih); padding: 16px 20px; border-radius: 14px; box-shadow: var(--bayang); }
+.garis-waktu li::before { content: ""; position: absolute; left: -37px; top: 22px; width: 16px; height: 16px; border-radius: 50%; background: var(--kuning); border: 4px solid var(--teal); }
+.garis-waktu strong { color: var(--teal); }
+
+.akordeon { background: var(--putih); border-radius: 16px; margin-bottom: 12px; box-shadow: var(--bayang); overflow: hidden; }
+.akordeon > button {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  background: none; border: 0; cursor: pointer; font: inherit; font-weight: 700; color: var(--tinta);
+  padding: 18px 22px; text-align: left;
+}
+.akordeon > button::after { content: "+"; font-size: 1.6rem; color: var(--teal); transition: transform .35s var(--pantul); }
+.akordeon.buka > button::after { transform: rotate(135deg); }
+.akordeon-isi { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s ease; }
+.akordeon.buka .akordeon-isi { grid-template-rows: 1fr; }
+.akordeon-isi > div { overflow: hidden; }
+.akordeon-isi p { padding: 0 22px 18px; margin: 0; color: var(--abu); }
+
+/* ---------- Kontak ---------- */
+.info { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin: 24px 0; }
+.info button {
+  font: inherit; text-align: left; color: inherit; cursor: pointer;
+  background: var(--putih); border: 2px dashed #9cc9c9; border-radius: 16px; padding: 16px 18px;
+  transition: transform .3s var(--pantul), border-color .2s;
+}
+.info button:hover { transform: translateY(-5px) scale(1.03); border-color: var(--teal); }
+.info small { display: block; color: var(--abu); }
+
+form { display: grid; gap: 18px; background: var(--putih); padding: 30px; border-radius: 22px; box-shadow: var(--bayang); }
+.bidang label { display: block; font-weight: 700; margin-bottom: 6px; }
+.bidang input, .bidang textarea {
+  width: 100%; font: inherit; padding: 12px 14px; border: 2px solid #c5dede; border-radius: 12px; background: var(--mint);
+  transition: border-color .2s, box-shadow .2s, transform .25s var(--pantul);
+}
+.bidang input:focus, .bidang textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(47, 127, 134, .18); transform: scale(1.01); outline: none; }
+.bidang.salah input, .bidang.salah textarea { border-color: #d64545; animation: getar .4s; }
+.galat { color: #b32d2d; font-size: .9rem; min-height: 1.3em; }
+.hitung { text-align: right; color: var(--abu); font-size: .85rem; }
+@keyframes getar { 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-4px); } }
+
+/* ---------- Pop-up (modal) ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px;
+  background: rgba(20, 48, 58, .6); backdrop-filter: blur(5px);
+  opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s;
+}
+.modal.buka { opacity: 1; visibility: visible; }
+.modal-kotak {
+  position: relative; width: min(480px, 100%); background: var(--putih); border-radius: 26px; padding: 36px 32px 30px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .4);
+  transform: scale(.6) translateY(40px); opacity: 0;
+  transition: transform .5s var(--pantul), opacity .3s;
+}
+.modal.buka .modal-kotak { transform: none; opacity: 1; }
+.modal-kotak .ikon-besar { font-size: 3rem; display: block; margin-bottom: 8px; }
+.modal-kotak ul { margin: 12px 0 20px 20px; }
+.modal-kotak li { margin-bottom: 4px; }
+.tutup {
+  position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 50%;
+  border: 0; background: var(--mint); font-size: 1.3rem; cursor: pointer; color: var(--tinta);
+  transition: transform .3s var(--pantul), background .2s;
+}
+.tutup:hover { transform: rotate(90deg) scale(1.1); background: var(--kuning); }
+
+/* ---------- Toast ---------- */
+.area-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 200; display: grid; gap: 10px; }
+.toast {
+  background: var(--tinta); color: var(--putih); padding: 14px 24px; border-radius: 14px; font-weight: 700;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .35); animation: pop .5s var(--pantul), pergi .4s ease 3s forwards;
+}
+.toast.sukses { border-left: 6px solid #55d38a; }
+.toast.galat-toast { border-left: 6px solid #ff7b7b; }
+@keyframes pergi { to { opacity: 0; transform: translateY(20px) scale(.9); } }
+
+/* ---------- Tombol ke atas ---------- */
+.ke-atas {
+  position: fixed; right: 24px; bottom: 24px; z-index: 60; width: 52px; height: 52px; border-radius: 50%;
+  border: 0; background: var(--kuning); color: var(--tinta); font-size: 1.4rem; font-weight: 800; cursor: pointer;
+  box-shadow: var(--bayang); transform: scale(0); transition: transform .45s var(--pantul);
+}
+.ke-atas.tampil { transform: scale(1); }
+.ke-atas:hover { transform: scale(1.15) translateY(-3px); }
+
+footer { text-align: center; padding: 26px; background: var(--tinta); color: #cfe8e8; }
+
+/* ---------- Muncul saat scroll ---------- */
+.siap .pop { opacity: 0; transform: translateY(30px) scale(.88); }
+.siap .pop.muncul { animation: pop .65s var(--pantul) var(--tunda, 0ms) forwards; }
+
+/* ---------- Responsif ---------- */
+@media (max-width: 820px) {
+  nav, nav.mengecil { padding: 14px 20px; }
+  .burger { display: block; }
+  .menu {
+    position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: var(--tinta);
+    padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease;
+  }
+  .menu.buka { max-height: 300px; padding: 10px 20px 20px; }
+  .hero { grid-template-columns: 1fr; padding: 40px 20px; }
+  .lencana { left: 10px; }
+  .angka { grid-template-columns: 1fr; padding: 0 20px; }
+  .seksi, .konten { padding-left: 20px; padding-right: 20px; }
+}
+
+/* ---------- Hormati pengguna yang mematikan animasi ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .siap .pop, .hero .teks > *, .gambar-wrap img, .lencana { opacity: 1 !important; transform: none !important; }
+}
+
+
+header[id], section[id] { scroll-margin-top: 70px; }
+
+  </style>
+</head>
+<body data-halaman="profil">
+
+  <nav>
+    <a href="index.html" class="logo">Nusantara Digital</a>
+    <button class="burger" aria-label="Buka menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="menu">
+      <a href="index.html">Beranda</a>
+      <a href="profil.html" class="aktif">Profil</a>
+      <a href="kontak.html">Kontak</a>
+    </div>
+  </nav>
+
+  <main class="konten">
+      <h1 class="pop">Profil perusahaan</h1>
+      <p class="pop">
+        Nusantara Digital berdiri pada tahun 2024 dengan satu tujuan:
+        membantu pelaku usaha lokal <strong>tampil dan bertumbuh</strong> di dunia digital.
+      </p>
+
+      <h2 class="pop">Perjalanan kami</h2>
+      <ul class="garis-waktu">
+        <li class="pop"><strong>2024</strong><br>Berdiri dengan tim kecil dan lima klien pertama.</li>
+        <li class="pop"><strong>2025</strong><br>Membuka layanan desain grafis dan digital marketing.</li>
+        <li class="pop"><strong>2026</strong><br>Melayani lebih dari 150 klien di berbagai kota.</li>
+      </ul>
+
+      <h2 class="pop">Visi dan misi</h2>
+      <div class="akordeon pop">
+        <button aria-expanded="false">Visi</button>
+        <div class="akordeon-isi"><div><p><em>Menjadi mitra digital terpercaya bagi UMKM di seluruh Indonesia.</em></p></div></div>
+      </div>
+      <div class="akordeon pop">
+        <button aria-expanded="false">Misi</button>
+        <div class="akordeon-isi"><div><p>Menyediakan layanan digital yang terjangkau, mengutamakan kualitas dan kepuasan klien, serta terus belajar mengikuti perkembangan teknologi.</p></div></div>
+      </div>
+      <div class="akordeon pop">
+        <button aria-expanded="false">Nilai kerja kami</button>
+        <div class="akordeon-isi"><div><p>Jujur dalam estimasi, jelas dalam komunikasi, dan tepat waktu dalam pengerjaan.</p></div></div>
+      </div>
+    
+
+      <br>
+      <a href="index.html" class="tombol pop">&larr; Kembali ke beranda</a>
+  </main>
+
+  <footer>&copy; 2026 Nusantara Digital. Semua hak dilindungi.</footer>
+
+  <button class="ke-atas" aria-label="Kembali ke atas">&uarr;</button>
+
+  <script>
+/* =========================================================
+   Nusantara Digital - script.js
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("siap");
+
+  /* ---------- Navbar & tombol ke atas ---------- */
+  const nav = document.querySelector("nav");
+  const keAtas = document.querySelector(".ke-atas");
+  window.addEventListener("scroll", () => {
+    nav.classList.toggle("mengecil", window.scrollY > 30);
+    if (keAtas) keAtas.classList.toggle("tampil", window.scrollY > 400);
+  }, { passive: true });
+  if (keAtas) keAtas.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  /* ---------- Menu hamburger (HP) ---------- */
+  const burger = document.querySelector(".burger");
+  const menu = document.querySelector(".menu");
+  burger.addEventListener("click", () => {
+    const buka = menu.classList.toggle("buka");
+    burger.setAttribute("aria-expanded", buka);
+  });
+
+  /* ---------- Transisi antar halaman ---------- */
+  document.querySelectorAll('a[href$=".html"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || a.target === "_blank") return;
+      e.preventDefault();
+      document.body.classList.add("keluar");
+      setTimeout(() => (window.location.href = a.href), 220);
+    });
+  });
+  window.addEventListener("pageshow", () => document.body.classList.remove("keluar"));
+
+  /* ---------- Elemen pop-in saat di-scroll ---------- */
+  const pengamat = new IntersectionObserver((daftar) => {
+    daftar.forEach((d) => {
+      if (d.isIntersecting) {
+        d.target.classList.add("muncul");
+        pengamat.unobserve(d.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".pop").forEach((el, i) => {
+    el.style.setProperty("--tunda", (i % 4) * 90 + "ms");
+    pengamat.observe(el);
+  });
+
+  /* ---------- Angka berhitung ---------- */
+  const penghitung = new IntersectionObserver((daftar) => {
+    daftar.forEach((d) => {
+      if (!d.isIntersecting) return;
+      const el = d.target;
+      const target = +el.dataset.hitung;
+      const mulai = performance.now();
+      const durasi = 1400;
+      const langkah = (t) => {
+        const p = Math.min((t - mulai) / durasi, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + (el.dataset.akhiran || "");
+        if (p < 1) requestAnimationFrame(langkah);
+      };
+      requestAnimationFrame(langkah);
+      penghitung.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll("[data-hitung]").forEach((el) => penghitung.observe(el));
+
+  /* ---------- Toast ---------- */
+  let areaToast = document.querySelector(".area-toast");
+  if (!areaToast) {
+    areaToast = document.createElement("div");
+    areaToast.className = "area-toast";
+    areaToast.setAttribute("aria-live", "polite");
+    document.body.appendChild(areaToast);
+  }
+  window.tampilToast = (pesan, jenis = "sukses") => {
+    const t = document.createElement("div");
+    t.className = "toast " + (jenis === "sukses" ? "sukses" : "galat-toast");
+    t.textContent = pesan;
+    areaToast.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+  };
+
+  /* ---------- Pop-up (modal) ---------- */
+  const modal = document.querySelector(".modal");
+  if (modal) {
+    const isi = modal.querySelector(".modal-isi");
+    let pemicu = null;
+
+    const bukaModal = (html, dari) => {
+      pemicu = dari || null;
+      isi.innerHTML = html;
+      modal.classList.add("buka");
+      modal.setAttribute("aria-hidden", "false");
+      modal.querySelector(".tutup").focus();
+    };
+    const tutupModal = () => {
+      modal.classList.remove("buka");
+      modal.setAttribute("aria-hidden", "true");
+      if (pemicu) pemicu.focus();
+    };
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal || e.target.closest(".tutup") || e.target.closest("[data-tutup]")) tutupModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("buka")) tutupModal();
+    });
+
+    // Detail layanan: muncul saat kartu diklik
+    const layanan = {
+      web: {
+        ikon: "🌐", judul: "Desain website",
+        teks: "Website yang cepat dibuka dan rapi di HP maupun komputer.",
+        poin: ["Landing page promosi", "Company profile", "Toko online sederhana"]
+      },
+      grafis: {
+        ikon: "🎨", judul: "Desain grafis",
+        teks: "Tampilan visual yang konsisten untuk semua media promosi Anda.",
+        poin: ["Logo dan identitas merek", "Poster dan brosur", "Konten media sosial"]
+      },
+      marketing: {
+        ikon: "📈", judul: "Digital marketing",
+        teks: "Promosi online yang terukur supaya produk Anda lebih dikenal.",
+        poin: ["Strategi konten", "Iklan berbayar", "Laporan hasil tiap bulan"]
+      }
+    };
+    document.querySelectorAll("[data-layanan]").forEach((kartu) => {
+      kartu.addEventListener("click", () => {
+        const d = layanan[kartu.dataset.layanan];
+        bukaModal(
+          `<span class="ikon-besar">${d.ikon}</span>
+           <h2 id="judul-modal">${d.judul}</h2>
+           <p>${d.teks}</p>
+           <ul>${d.poin.map((p) => `<li>${p}</li>`).join("")}</ul>
+           <a href="kontak.html" class="tombol">Tanya layanan ini</a>`,
+          kartu
+        );
+      });
+    });
+
+    // Pop-up promo: muncul sekali per kunjungan
+    if (document.body.dataset.halaman === "beranda" && !sessionStorage.getItem("promoDilihat")) {
+      setTimeout(() => {
+        bukaModal(
+          `<span class="ikon-besar">🎁</span>
+           <h2 id="judul-modal">Konsultasi pertama gratis</h2>
+           <p>Ceritakan kebutuhan bisnis Anda, kami bantu rancang solusi digitalnya tanpa biaya.</p>
+           <p><mark>Berlaku sampai akhir bulan.</mark></p><br>
+           <a href="kontak.html" class="tombol terang">Ambil promo</a>`,
+          null
+        );
+        sessionStorage.setItem("promoDilihat", "1");
+      }, 2500);
+    }
+  }
+
+  /* ---------- Akordeon (halaman profil) ---------- */
+  document.querySelectorAll(".akordeon > button").forEach((tombol) => {
+    tombol.addEventListener("click", () => {
+      const kotak = tombol.parentElement;
+      const buka = kotak.classList.toggle("buka");
+      tombol.setAttribute("aria-expanded", buka);
+    });
+  });
+
+  /* ---------- Salin info kontak ---------- */
+  document.querySelectorAll("[data-salin]").forEach((tombol) => {
+    tombol.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(tombol.dataset.salin);
+        tampilToast("Tersalin: " + tombol.dataset.salin);
+      } catch {
+        tampilToast("Gagal menyalin. Salin secara manual.", "galat");
+      }
+    });
+  });
+
+  /* ---------- Formulir kontak ---------- */
+  const form = document.querySelector("#form-kontak");
+  if (form) {
+    const pesan = form.querySelector("textarea");
+    const hitung = form.querySelector(".hitung");
+    const BATAS = 300;
+    pesan.addEventListener("input", () => (hitung.textContent = pesan.value.length + " / " + BATAS));
+
+    const aturan = {
+      nama: (v) => (v.trim().length < 3 ? "Nama minimal 3 huruf." : ""),
+      email: (v) => (/^\S+@\S+\.\S+$/.test(v) ? "" : "Format email belum benar, contoh: nama@email.com."),
+      pesan: (v) => (v.trim().length < 10 ? "Pesan minimal 10 karakter." : v.length > BATAS ? "Pesan maksimal " + BATAS + " karakter." : "")
+    };
+    const cek = (input) => {
+      const bidang = input.closest(".bidang");
+      const galat = aturan[input.name](input.value);
+      bidang.classList.toggle("salah", !!galat);
+      bidang.querySelector(".galat").textContent = galat;
+      return !galat;
+    };
+    form.querySelectorAll("input, textarea").forEach((el) => {
+      el.addEventListener("blur", () => cek(el));
+      el.addEventListener("input", () => el.closest(".bidang").classList.contains("salah") && cek(el));
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const semua = [...form.querySelectorAll("input, textarea")].map(cek);
+      if (semua.includes(false)) {
+        tampilToast("Periksa kembali kolom yang berwarna merah.", "galat");
+        return;
+      }
+      tampilToast("Pesan terkirim. Kami balas dalam 1 hari kerja.");
+      form.reset();
+      hitung.textContent = "0 / " + BATAS;
+    });
+  }
+});
+
+  </script>
+</body>
+</html>
